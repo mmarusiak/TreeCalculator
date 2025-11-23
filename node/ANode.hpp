@@ -1,39 +1,42 @@
-#ifndef ANode_H
-#define ANode_H
+#ifndef ANODE_H
+#define ANODE_H
 
 #include <string>
 #include <vector>
 #include <map>
 
-// ordered/unordered - tablica mieszajaca/drzewo
-
 class ANode {
-private:
+protected:
     std::vector<ANode*> children;
     std::vector<std::string> vars;
+    std::string fixMessage;
 
 public:
-    ANode();
-    ANode(int& offset, const std::string& val);
-    ~ANode();
-    
-    ANode(const ANode& other);
-    ANode& operator=(const ANode& other);
-    
-    virtual double operator() (const std::map<std::string, double>& varValues, bool& success) const;
-    virtual std::string toString() const;
+    // Abstract interface
+    virtual double operator()(const std::map<std::string, double>& varValues, bool& success) const = 0;
+    virtual std::string toString() const = 0;
 
-    void addChild(ANode* child);
-    int getChildrenCount() const;
-    ANode* getChild(int index) const;
-    
-    ANode parseFromString(const std::string& input, int& offset, bool& error, bool& fixed, std::string& fixMessage);
-    std::vector<std::string>& getVariables(std::vector<std::string>& vars) const {
-        return vars;
-    };
-    
+    // Parsing function returns pointer
+    static ANode* parseFromString(const std::string& input, int& offset);
+
+    ANode() = default;
+    virtual ~ANode() {
+        for (auto child : children) delete child;
+    }
+
+    ANode(const ANode&) = delete;
+    ANode& operator=(const ANode&) = delete;
+
+    void appendChild(int& offset, const std::string& val);
+
+    void mergeVars(const std::vector<std::string>& otherVars);
+
     ANode* getFirstLeaf();
+
     void replaceChild(ANode* oldChild, ANode* newChild);
+
+    const std::vector<std::string>& getVars() const { return vars; }
+    const std::vector<ANode*>& getChildren() const { return children; }
 };
 
 #endif

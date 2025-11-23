@@ -1,5 +1,5 @@
-#ifndef NumberNode_H
-#define NumberNode_H
+#ifndef VarNode_H
+#define VarNode_H
 
 #include "ANode.hpp"
 #include <string>
@@ -8,15 +8,15 @@
 
 // ordered/unordered - tablica mieszajaca/drzewo
 
-class NumberNode : public ANode {
-    double value;
+class VarNode : public ANode {
+    std::string variable;
 public:
-    NumberNode();
-    NumberNode(int& offset, const std::string& val);
-    ~NumberNode();
+    VarNode();
+    VarNode(int& offset, const std::string& val);
+    ~VarNode();
     
-    NumberNode(const NumberNode& other);
-    NumberNode& operator=(const NumberNode& other);
+    VarNode(const VarNode& other);
+    VarNode& operator=(const VarNode& other);
     
     double operator() (const std::map<std::string, double>& varValues, bool& success) const override;
     std::string toString() const override;
