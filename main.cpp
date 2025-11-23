@@ -1,6 +1,8 @@
 #include "ConsoleParser.hpp"
 #include <iostream>
 
+// g++ -std=c++11 main.cpp node/ANode.cpp node/NumberNode.cpp node/VarNode.cpp node/OperatorNode.cpp Tree.cpp ConsoleParser.cpp -o ./test
+
 int main(int argc, char const *argv[])
 {
     ConsoleParser parser;
