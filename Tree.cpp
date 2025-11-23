@@ -55,3 +55,13 @@ double Tree::calculateTree(std::map<std::string, double>& vars, bool& success)
 {
     return (*root)(vars, success);
 }
+
+Tree& Tree::operator+=(const Tree& other)
+{
+    if (root->getChildren().size() == 0)
+        root = other.root;
+    else root->replaceLeaf(*(other.root));
+
+    
+    return *this;
+}

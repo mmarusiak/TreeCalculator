@@ -61,3 +61,12 @@ void ANode::mergeVars(const std::vector<std::string>& otherVars)
         if (!contains) vars.push_back(otherVars[i]);       
     }
 }
+
+void ANode::replaceLeaf(ANode& leaf)
+{
+    if (children[0]->children.size() == 0){ 
+        children[0] = (&leaf);
+        return;
+    }
+    children[0]->replaceLeaf(leaf);   
+}

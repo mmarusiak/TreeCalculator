@@ -31,9 +31,7 @@ public:
 
     void mergeVars(const std::vector<std::string>& otherVars);
 
-    ANode* getFirstLeaf();
-
-    void replaceChild(ANode* oldChild, ANode* newChild);
+    void replaceLeaf(ANode& leaf);
 
     const std::vector<std::string>& getVars() const { return vars; }
     const std::vector<ANode*>& getChildren() const { return children; }

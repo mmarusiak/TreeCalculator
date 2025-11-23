@@ -44,10 +44,8 @@ ConsoleParser::ConsoleParser() {
     };
 }
 
-
-std::string ConsoleParser::enter(const std::vector<std::string>& args)
+std::string formulaFromArgs(const std::vector<std::string>& args)
 {
-    if (args.size() < 1) return "Please provide formula!";
     std::string formula = args[0];
     if (args.size() > 1) {
         for(int i = 1; i < args.size(); ++ i)
@@ -55,6 +53,13 @@ std::string ConsoleParser::enter(const std::vector<std::string>& args)
             formula += " " + args[i];
         }
     }
+    return formula;
+}
+
+std::string ConsoleParser::enter(const std::vector<std::string>& args)
+{
+    if (args.size() < 1) return "Please provide formula!";
+    std::string formula = formulaFromArgs(args);
     tree.loadTreeFromString(formula);
     return "Tree loaded! \n" + tree.toString();
 }
@@ -104,5 +109,9 @@ std::string ConsoleParser::comp(const std::vector<std::string>& args)
 
 std::string ConsoleParser::join(const std::vector<std::string>& args)
 {
-    return "Hello world";
+    Tree other;
+    std::string formula = formulaFromArgs(args);
+    other.loadTreeFromString(formula);
+    tree += other;
+    return tree.toString();
 }
