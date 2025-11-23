@@ -31,5 +31,5 @@ double VarNode::operator()(const std::map<std::string, double> &varValues, bool 
 
 std::string VarNode::toString() const 
 {
-    return "VAR:" + variable;
+    return variable;
 }

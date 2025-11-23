@@ -35,7 +35,7 @@ ANode* ANode::parseFromString(const std::string& input, int& offset)
 
     if (offset >= input.length() - 1 && (currentChar == 0 || currentChar == ' '))
     {
-        std::cout << "Niepoprawne wyrazenie, poprawiono." << std::endl;
+        std::cout << "Missing number, fixed with 1." << std::endl;
         return new NumberNode();
     }
     return loadOperatorOrVarNode(input, offset);

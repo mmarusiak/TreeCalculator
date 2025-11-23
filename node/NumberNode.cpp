@@ -30,5 +30,5 @@ double NumberNode::operator()(const std::map<std::string, double> &varValues, bo
 
 std::string NumberNode::toString() const 
 {
-    return "NUM: " + std::to_string(value);
+    return std::to_string(value);
 }

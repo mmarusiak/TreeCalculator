@@ -22,6 +22,11 @@ namespace {
         }
     }
 
+    void preorderWalkFormula(const ANode* node, std::string& string)
+    {
+        string += " " + node->toString();
+        for(int i = 0; i < node->getChildren().size(); ++ i) preorderWalkFormula(node->getChildren()[i], string);
+    }
 }
 
 void Tree::loadTreeFromString(std::string& input)
@@ -41,7 +46,9 @@ const std::vector<std::string>& Tree::getVars() const
 std::string Tree::toString() {
     std::stringstream ss;
     printNode(root, "", true, ss);  // root is considered last at top level
-    return ss.str();
+    std::string outcome = ss.str() + "\n";
+    preorderWalkFormula(root, outcome);
+    return outcome;
 }
 
 double Tree::calculateTree(std::map<std::string, double>& vars, bool& success)
