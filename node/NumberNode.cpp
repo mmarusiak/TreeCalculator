@@ -8,7 +8,6 @@ NumberNode::NumberNode()
 NumberNode::NumberNode(int& offset, const std::string& val)
 {
     std::string number = "";
-    while (offset < val.length() && val[offset] == ' ') ++offset;
     for (; offset < val.length() && val[offset] != ' '; number += val[offset++]);
 
     value = std::stod(number);   

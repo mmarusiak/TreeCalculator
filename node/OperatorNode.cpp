@@ -3,7 +3,6 @@
 OperatorNode::OperatorNode(int& offset, const std::string& val)
 {
     std::string op = "";
-    while (offset < val.length() && val[offset] == ' ') ++offset;
     for (; offset < val.length() && val[offset] != ' '; op += val[offset++]);
 
     if (op.compare("+") == 0 || op.compare("-") == 0 || op.compare("/") == 0 || op.compare("*") == 0) {

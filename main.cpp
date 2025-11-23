@@ -1,21 +1,20 @@
-#include "Tree.hpp"
+#include "ConsoleParser.hpp"
 #include <iostream>
 
 int main(int argc, char const *argv[])
 {
-    std::string formula = "";
-    std::cout << "Podaj dzialanie w Notacji Polskiej: ";
-    std::getline(std::cin, formula);
+    ConsoleParser parser;
 
-    while (formula.empty())      // skip empty line if needed
-        std::getline(std::cin, formula);
+    std::string command = "";
+    while (command != "q" && command != "quit"){
+        std::cout << "Please provide a command: \n";
+        std::getline(std::cin, command);
 
+        while (command.empty())      // skip empty line if needed
+            std::getline(std::cin, command);
+        
+        std::cout << parser.readCommand(command) << std::endl;
+    }
 
-    Tree myTree;
-    myTree.loadTreeFromString(formula);
-    std::map<std::string, double> vars;
-    vars["aVar"] = 3.14;
-    bool success = true;
-    std::cout << myTree.toString() << " : " << myTree.calculateTree(vars, success) << " " << success << std::endl;
     return 0;
 }

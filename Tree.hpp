@@ -10,9 +10,13 @@
 
 class Tree {
     ANode* root;
-    bool initialized;
 
   public:
+    bool initialized;
+    
+    ~Tree(){
+      delete root;
+    }
     void loadTreeFromString(std::string& input);
     std::string toString();
     const std::vector<std::string>& getVars() const;

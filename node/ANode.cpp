@@ -3,6 +3,8 @@
 #include "OperatorNode.hpp"
 #include "VarNode.hpp"
 
+#include <iostream>
+
 
 namespace {
     ANode* loadOperatorOrVarNode(const std::string& input, int& offset)
@@ -31,6 +33,11 @@ ANode* ANode::parseFromString(const std::string& input, int& offset)
     if (currentChar >= '0' && currentChar <= '9')
         return new NumberNode(offset, input);
 
+    if (offset >= input.length() - 1 && (currentChar == 0 || currentChar == ' '))
+    {
+        std::cout << "Niepoprawne wyrazenie, poprawiono." << std::endl;
+        return new NumberNode();
+    }
     return loadOperatorOrVarNode(input, offset);
 }
 

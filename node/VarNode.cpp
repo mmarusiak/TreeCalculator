@@ -3,7 +3,6 @@
 VarNode::VarNode(int& offset, const std::string& val)
 {
     std::string var = "";
-    while (offset < val.length() && val[offset] == ' ') ++offset;
     for (; offset < val.length() && val[offset] != ' '; var += val[offset++]);
 
     variable = var;
