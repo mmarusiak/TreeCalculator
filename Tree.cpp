@@ -56,12 +56,14 @@ double Tree::calculateTree(std::map<std::string, double>& vars, bool& success)
     return (*root)(vars, success);
 }
 
-Tree& Tree::operator+=(const Tree& other)
+Tree& Tree::operator+=(Tree& other)
 {
     if (root->getChildren().size() == 0)
         root = other.root;
     else root->replaceLeaf(*(other.root));
 
+    // nie chcemy przy zwalnianiu drzewa zwalniać roota!
+    other.root = nullptr;
     
     return *this;
 }

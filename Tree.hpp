@@ -23,7 +23,7 @@ class Tree {
     const std::vector<std::string>& getVars() const;
     double calculateTree(std::map<std::string, double>& vars, bool& success);
 
-    Tree& operator+=(const Tree& other);
+    Tree& operator+=(Tree& other);
 };
 
 #endif
