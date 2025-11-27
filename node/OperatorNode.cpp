@@ -6,16 +6,14 @@ OperatorNode::OperatorNode(int& offset, const std::string& val)
     std::string op = "";
     for (; offset < val.length() && val[offset] != ' '; op += val[offset++]);
 
-    if (op.compare("+") == 0 || op.compare("-") == 0 || op.compare("/") == 0 || op.compare("*") == 0) {
-        operatorSign = op[0];
+    operatorSign = op[0];
 
+    if (op.compare("+") == 0 || op.compare("-") == 0 || op.compare("/") == 0 || op.compare("*") == 0) {
         appendChild(offset, val);
         appendChild(offset, val);
     }
     else
     {
-        operatorSign = op[0];
-
         appendChild(offset, val);
     }
 }

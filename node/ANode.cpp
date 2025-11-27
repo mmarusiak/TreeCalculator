@@ -61,7 +61,7 @@ void ANode::mergeVars(const std::vector<std::string>& otherVars)
 {
     for(int i = 0; i < otherVars.size(); ++ i)
     {
-        bool contains;
+        bool contains = false;
         for (int j = 0; j < vars.size(); ++ j)
         {
             if (vars[j].compare(otherVars[i]) == 0) contains = true;
