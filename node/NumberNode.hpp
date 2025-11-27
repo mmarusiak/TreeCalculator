@@ -15,9 +15,6 @@ public:
     NumberNode(int& offset, const std::string& val);
     ~NumberNode();
     
-    NumberNode(const NumberNode& other);
-    NumberNode& operator=(const NumberNode& other);
-    
     double operator() (const std::map<std::string, double>& varValues, bool& success) const override;
     std::string toString() const override;
 };

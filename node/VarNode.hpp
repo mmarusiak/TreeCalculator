@@ -15,9 +15,6 @@ public:
     VarNode(int& offset, const std::string& val);
     ~VarNode();
     
-    VarNode(const VarNode& other);
-    VarNode& operator=(const VarNode& other);
-    
     double operator() (const std::map<std::string, double>& varValues, bool& success) const override;
     std::string toString() const override;
 };

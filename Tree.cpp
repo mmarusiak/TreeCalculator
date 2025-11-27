@@ -58,7 +58,12 @@ double Tree::calculateTree(std::map<std::string, double>& vars, bool& success)
 
 Tree& Tree::operator+=(Tree& other)
 {
-    if (root->getChildren().size() == 0)
+    if (!initialized)
+    {
+        root = other.root;
+        initialized = true;
+    }
+    else if (root->getChildren().size() == 0)
         root = other.root;
     else root->replaceLeaf(*(other.root));
 

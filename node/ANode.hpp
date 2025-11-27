@@ -24,9 +24,6 @@ public:
         for (auto child : children) delete child;
     }
 
-    ANode(const ANode&) = delete;
-    ANode& operator=(const ANode&) = delete;
-
     void appendChild(int& offset, const std::string& val);
 
     void mergeVars(const std::vector<std::string>& otherVars);

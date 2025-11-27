@@ -89,7 +89,7 @@ std::string ConsoleParser::print()
 
 std::string ConsoleParser::comp(const std::vector<std::string>& args)
 {
-    if (!tree.initialized) return "Please create tree first!";
+    if (!tree.initialized) return "0 Please create tree first!";
 
     std::vector<std::string> vars = tree.getVars();
     int missingArgs = vars.size() - args.size();

@@ -21,19 +21,6 @@ OperatorNode::OperatorNode(int& offset, const std::string& val)
 
 OperatorNode::~OperatorNode() {}
 
-OperatorNode::OperatorNode(const OperatorNode& other) : operatorSign(other.operatorSign)
-{
-    children = other.children;
-}
-
-OperatorNode& OperatorNode::operator=(const OperatorNode& other)
-{
-    OperatorNode clone(other);
-    operatorSign = other.operatorSign;
-    std::swap(children, clone.children);
-    return *this; 
-}
-
 double OperatorNode::operator()(const std::map<std::string, double> &varValues, bool &success) const
 {
     if(operatorSign == '+') return (*children[0])(varValues, success) + (*children[1])(varValues, success);

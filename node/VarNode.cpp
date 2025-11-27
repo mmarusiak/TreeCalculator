@@ -11,13 +11,6 @@ VarNode::VarNode(int& offset, const std::string& val)
 
 VarNode::~VarNode() {}
 
-VarNode::VarNode(const VarNode& other) : variable(other.variable) {}
-
-VarNode& VarNode::operator=(const VarNode& other)
-{
-    variable = other.variable;
-    return *this;
-}
 
 double VarNode::operator()(const std::map<std::string, double> &varValues, bool &success) const
 {
