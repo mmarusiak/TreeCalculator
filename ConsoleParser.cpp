@@ -97,7 +97,7 @@ std::string ConsoleParser::comp(const std::vector<std::string>& args)
     
     std::map<std::string, double> varsMap;
 
-    for(int i = 0; i < vars.size(); i ++)
+    for(int i = 0; i < vars.size(); ++ i)
     {
         varsMap[vars[i]] = std::stod(args[i]);
     }

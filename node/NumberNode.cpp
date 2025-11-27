@@ -1,4 +1,5 @@
 #include "NumberNode.hpp"
+#include <iostream>
 
 NumberNode::NumberNode()
 {
@@ -9,8 +10,15 @@ NumberNode::NumberNode(int& offset, const std::string& val)
 {
     std::string number = "";
     for (; offset < val.length() && val[offset] != ' '; number += val[offset++]);
-
-    value = std::stod(number);   
+    
+    try {
+        value = std::stod(number);   
+    }
+    catch (int errorCode)
+    {
+        std::cout << "There was an error while parsing " << number << " to double. Replaced with 1." << std::endl;
+        value = 1;
+    }
 }
 
 NumberNode::~NumberNode() {}

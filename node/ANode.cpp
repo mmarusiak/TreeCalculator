@@ -10,8 +10,10 @@ namespace {
     ANode* loadOperatorOrVarNode(const std::string& input, int& offset)
     {
         std::string entry = "";
+        bool isSpaceOnly = true;
         for (int i = offset; i < input.size() && input[i] != ' '; ++i) {
             char ch = input[i];
+            if (ch != ' ') isSpaceOnly = false;
             if (ch >= 'A' && ch <= 'Z') ch = ch - 'A' + 'a';
             entry += ch;
         }
@@ -19,6 +21,12 @@ namespace {
         if (entry.compare("+") == 0 || entry.compare("-") == 0 || entry.compare("/") == 0 || 
             entry.compare("*") == 0 || entry.compare("sin") == 0 || entry.compare("cos") == 0) {
             return new OperatorNode(offset, input);
+        }
+
+        if (entry.length() == 0 || isSpaceOnly) 
+        {
+            std::cout << "Missing number, fixed with 1." << std::endl;
+            return new NumberNode();
         }
 
         return new VarNode(offset, input);
