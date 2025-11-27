@@ -1,4 +1,5 @@
 #include "OperatorNode.hpp"
+#include <iostream>
 
 OperatorNode::OperatorNode(int& offset, const std::string& val)
 {
@@ -26,7 +27,14 @@ double OperatorNode::operator()(const std::map<std::string, double> &varValues, 
     if(operatorSign == '+') return (*children[0])(varValues, success) + (*children[1])(varValues, success);
     if(operatorSign == '-') return (*children[0])(varValues, success) - (*children[1])(varValues, success);
     if(operatorSign == '*') return (*children[0])(varValues, success) * (*children[1])(varValues, success);
-    if(operatorSign == '/') return (*children[0])(varValues, success) / (*children[1])(varValues, success);
+    if(operatorSign == '/') {
+        float n = (*children[1])(varValues, success);
+        if (n == 0) {
+            std::cout << "Division by zero!" << std::endl;
+            success = false;
+        }
+        return (*children[0])(varValues, success) / n;
+    }
 
     if(operatorSign == 's' || operatorSign == 'S') return sin((*children[0])(varValues, success));
     if(operatorSign == 'c' || operatorSign == 'C') return cos((*children[0])(varValues, success));
