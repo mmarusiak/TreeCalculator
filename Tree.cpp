@@ -38,7 +38,8 @@ void Tree::loadTreeFromString(std::string& input)
 
 const std::vector<std::string>& Tree::getVars() const
 {
-    if (!initialized) return {};
+    static const std::vector<std::string> emptyVec;
+    if (!initialized) return emptyVec;
     return root->getVars();
 }
 

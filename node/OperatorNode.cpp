@@ -22,6 +22,8 @@ OperatorNode::~OperatorNode() {}
 
 double OperatorNode::operator()(const std::map<std::string, double> &varValues, bool &success) const
 {
+    success = true;
+    
     if(operatorSign == '+') return (*children[0])(varValues, success) + (*children[1])(varValues, success);
     if(operatorSign == '-') return (*children[0])(varValues, success) - (*children[1])(varValues, success);
     if(operatorSign == '*') return (*children[0])(varValues, success) * (*children[1])(varValues, success);
@@ -30,6 +32,7 @@ double OperatorNode::operator()(const std::map<std::string, double> &varValues, 
         if (n == 0) {
             std::cout << "Division by zero!" << std::endl;
             success = false;
+            return 0;
         }
         return (*children[0])(varValues, success) / n;
     }
@@ -43,8 +46,10 @@ double OperatorNode::operator()(const std::map<std::string, double> &varValues, 
 
 std::string OperatorNode::toString() const 
 {
-    if (operatorSign == '+' || operatorSign == '-' || operatorSign == '*' || operatorSign == '/') 
-        return {operatorSign};
+    if (operatorSign == '+' || operatorSign == '-' || operatorSign == '*' || operatorSign == '/') {
+        char buf[2] = {operatorSign, '\0'};
+        return std::string(buf);
+    }
     if(operatorSign == 's' || operatorSign == 'S') return "sin";
     if(operatorSign == 'c' || operatorSign == 'C') return "cos";
 
