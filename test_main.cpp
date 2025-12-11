@@ -6,7 +6,7 @@
  * ./full_test
  */
 
-#include "templates/Tests.hpp"
+#include "templates_labs/Tests.hpp"
 
 int main() {
     runAllTests();

@@ -4,11 +4,6 @@
 #include <vector>
 #include <cstddef>
 
-/**
- * Template class for wrapping result or error
- * T - type of successful result
- * E - type of error
- */
 template<typename T, typename E>
 class Result {
 public:

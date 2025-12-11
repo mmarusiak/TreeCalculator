@@ -21,8 +21,6 @@ Result<ANode*, Error> TreeBuilder::buildTree(const std::string& expression) {
         return result;
     }
     
-    // Parse expression directly using ANode::parseFromString
-    // This expects prefix notation without parentheses (e.g., "+ 5 3")
     int offset = 0;
     ANode* tree = ANode::parseFromString(trimmed, offset);
     

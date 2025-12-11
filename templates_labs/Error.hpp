@@ -3,9 +3,6 @@
 
 #include <string>
 
-/**
- * Class representing an error with description
- */
 class Error {
 private:
     std::string description;

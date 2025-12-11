@@ -1,10 +1,3 @@
-/**
- * Examples of using Result<T, E> template with TreeCalculator
- * 
- * This file demonstrates the usage patterns of the Result template
- * for error handling in expression tree building and evaluation.
- */
-
 #include "Result.hpp"
 #include "ResultVoid.hpp"
 #include "Error.hpp"

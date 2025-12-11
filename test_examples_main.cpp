@@ -6,8 +6,8 @@
  * ./examples
  */
 
-#include "templates/Tests.hpp"
-#include "templates/Examples.cpp"
+#include "templates_labs/Tests.hpp"
+#include "templates_labs/Examples.cpp"
 
 int main() {
     
