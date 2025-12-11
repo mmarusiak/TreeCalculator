@@ -1,19 +1,12 @@
 #ifndef TEST_TEMPLATES_H
 #define TEST_TEMPLATES_H
 
-/**
- * Unit tests for Result<T, E> template classes
- * 
- * These tests verify the basic functionality of the template system
- * and its integration with the TreeCalculator project.
- * Includes tree building and expression evaluation tests.
- */
 
 #include "Result.hpp"
 #include "ResultVoid.hpp"
 #include "Error.hpp"
 #include "TreeBuilder.hpp"
-#include "../node/ANode.hpp"
+#include "../Tree.hpp"
 #include <cassert>
 #include <iostream>
 #include <map>
@@ -175,8 +168,7 @@ void testTemplateWithDifferentTypes() {
  * Test 11: TreeBuilder - Simple valid expression (no parentheses)
  */
 void testTreeBuilderSimpleExpression() {
-    // Using the format that ANode::parseFromString expects
-    Result<ANode*, Error> result = TreeBuilder::buildTree("+ 5 3");
+    Result<Tree*, Error> result = TreeBuilder::buildTree("+ 5 3");
     
     assert(result.isSuccess() == true);
     assert(result.getValue() != NULL);
@@ -184,7 +176,7 @@ void testTreeBuilderSimpleExpression() {
     // Evaluate tree
     std::map<std::string, double> vars;
     bool evalSuccess = false;
-    double value = (*result.getValue())(vars, evalSuccess);
+    double value = result.getValue()->calculateTree(vars, evalSuccess);
     
     assert(evalSuccess == true);
     assert(value == 8.0);
@@ -197,13 +189,13 @@ void testTreeBuilderSimpleExpression() {
  * Test 12: TreeBuilder - Subtraction
  */
 void testTreeBuilderSubtraction() {
-    Result<ANode*, Error> result = TreeBuilder::buildTree("- 10 3");
+    Result<Tree*, Error> result = TreeBuilder::buildTree("- 10 3");
     
     assert(result.isSuccess() == true);
     
     std::map<std::string, double> vars;
     bool evalSuccess = false;
-    double value = (*result.getValue())(vars, evalSuccess);
+    double value = result.getValue()->calculateTree(vars, evalSuccess);
     
     assert(evalSuccess == true);
     assert(value == 7.0);
@@ -216,13 +208,13 @@ void testTreeBuilderSubtraction() {
  * Test 13: TreeBuilder - Multiplication
  */
 void testTreeBuilderMultiplication() {
-    Result<ANode*, Error> result = TreeBuilder::buildTree("* 6 7");
+    Result<Tree*, Error> result = TreeBuilder::buildTree("* 6 7");
     
     assert(result.isSuccess() == true);
     
     std::map<std::string, double> vars;
     bool evalSuccess = false;
-    double value = (*result.getValue())(vars, evalSuccess);
+    double value = result.getValue()->calculateTree(vars, evalSuccess);
     
     assert(evalSuccess == true);
     assert(value == 42.0);
@@ -235,13 +227,13 @@ void testTreeBuilderMultiplication() {
  * Test 14: TreeBuilder - Division
  */
 void testTreeBuilderDivision() {
-    Result<ANode*, Error> result = TreeBuilder::buildTree("/ 20 4");
+    Result<Tree*, Error> result = TreeBuilder::buildTree("/ 20 4");
     
     assert(result.isSuccess() == true);
     
     std::map<std::string, double> vars;
     bool evalSuccess = false;
-    double value = (*result.getValue())(vars, evalSuccess);
+    double value = result.getValue()->calculateTree(vars, evalSuccess);
     
     assert(evalSuccess == true);
     assert(value == 5.0);
@@ -255,13 +247,13 @@ void testTreeBuilderDivision() {
  */
 void testTreeBuilderNested() {
     // Nested: (2*3)+4 = 10
-    Result<ANode*, Error> result = TreeBuilder::buildTree("+ * 2 3 4");
+    Result<Tree*, Error> result = TreeBuilder::buildTree("+ * 2 3 4");
     
     assert(result.isSuccess() == true);
     
     std::map<std::string, double> vars;
     bool evalSuccess = false;
-    double value = (*result.getValue())(vars, evalSuccess);
+    double value = result.getValue()->calculateTree(vars, evalSuccess);
     
     assert(evalSuccess == true);
     assert(value == 10.0);  // (2*3)+4 = 10
@@ -274,7 +266,7 @@ void testTreeBuilderNested() {
  * Test 16: TreeBuilder - Empty expression error
  */
 void testTreeBuilderEmptyExpression() {
-    Result<ANode*, Error> result = TreeBuilder::buildTree("");
+    Result<Tree*, Error> result = TreeBuilder::buildTree("");
     
     assert(result.isSuccess() == false);
     assert(result.getErrors().size() > 0);
@@ -288,7 +280,7 @@ void testTreeBuilderEmptyExpression() {
  * Test 17: TreeBuilder - Whitespace only error
  */
 void testTreeBuilderWhitespaceOnly() {
-    Result<ANode*, Error> result = TreeBuilder::buildTree("   ");
+    Result<Tree*, Error> result = TreeBuilder::buildTree("   ");
     
     assert(result.isSuccess() == false);
     assert(result.getErrors().size() > 0);
@@ -300,7 +292,7 @@ void testTreeBuilderWhitespaceOnly() {
  * Test 18: TreeBuilder - Invalid operator
  */
 void testTreeBuilderInvalidOperator() {
-    Result<ANode*, Error> result = TreeBuilder::buildTree("& 5 3");
+    Result<Tree*, Error> result = TreeBuilder::buildTree("& 5 3");
     
     // This may succeed or fail depending on parser implementation
     // We're testing that Result handles both cases gracefully
@@ -308,6 +300,7 @@ void testTreeBuilderInvalidOperator() {
         assert(result.getErrors().size() > 0);
         std::cout << "PASS: testTreeBuilderInvalidOperator (error detected)" << std::endl;
     } else {
+        delete result.getValue();
         std::cout << "PASS: testTreeBuilderInvalidOperator (parsed as valid)" << std::endl;
     }
 }
@@ -317,13 +310,13 @@ void testTreeBuilderInvalidOperator() {
  */
 void testTreeBuilderComplexNested() {
     // (10-5)*2 + 20/4 = 5*2 + 5 = 10 + 5 = 15
-    Result<ANode*, Error> result = TreeBuilder::buildTree("+ * - 10 5 2 / 20 4");
+    Result<Tree*, Error> result = TreeBuilder::buildTree("+ * - 10 5 2 / 20 4");
     
     assert(result.isSuccess() == true);
     
     std::map<std::string, double> vars;
     bool evalSuccess = false;
-    double value = (*result.getValue())(vars, evalSuccess);
+    double value = result.getValue()->calculateTree(vars, evalSuccess);
     
     assert(evalSuccess == true);
     assert(value == 15.0);
@@ -337,7 +330,7 @@ void testTreeBuilderComplexNested() {
  */
 void testTreeBuilderPower() {
     // Power operator not supported in this system, test that error handling works
-    Result<ANode*, Error> result = TreeBuilder::buildTree("sin 0");
+    Result<Tree*, Error> result = TreeBuilder::buildTree("sin 0");
     
     // Should fail because sin needs children
     if (!result.isSuccess()) {
@@ -346,12 +339,15 @@ void testTreeBuilderPower() {
         // Or it might parse, and sin(0) = 0
         std::map<std::string, double> vars;
         bool evalSuccess = false;
-        double value = (*result.getValue())(vars, evalSuccess);
+        double value = result.getValue()->calculateTree(vars, evalSuccess);
         
         if (evalSuccess) {
             assert(value == 0.0);  // sin(0) = 0
             delete result.getValue();
             std::cout << "PASS: testTreeBuilderPower (sin(0) = 0)" << std::endl;
+        } else {
+            delete result.getValue();
+            std::cout << "PASS: testTreeBuilderPower (unsupported operator handled)" << std::endl;
         }
     }
 }
@@ -360,7 +356,7 @@ void testTreeBuilderPower() {
  * Test 21: TreeBuilder with variables
  */
 void testTreeBuilderWithVariables() {
-    Result<ANode*, Error> result = TreeBuilder::buildTree("+ x 5");
+    Result<Tree*, Error> result = TreeBuilder::buildTree("+ x 5");
     
     assert(result.isSuccess() == true);
     
@@ -368,7 +364,7 @@ void testTreeBuilderWithVariables() {
     vars["x"] = 10.0;
     
     bool evalSuccess = false;
-    double value = (*result.getValue())(vars, evalSuccess);
+    double value = result.getValue()->calculateTree(vars, evalSuccess);
     
     assert(evalSuccess == true);
     assert(value == 15.0);  // 10 + 5
@@ -381,12 +377,12 @@ void testTreeBuilderWithVariables() {
  * Test 24: Result with tree pointer type
  */
 void testResultWithTreePointer() {
-    Result<ANode*, Error> treeResult = TreeBuilder::buildTree("* 3 4");
+    Result<Tree*, Error> treeResult = TreeBuilder::buildTree("* 3 4");
     
     assert(treeResult.isSuccess() == true);
     assert(treeResult.getValue() != NULL);
     
-    Result<ANode*, Error> copy = treeResult;
+    Result<Tree*, Error> copy = treeResult;
     assert(copy.isSuccess() == true);
     
     delete treeResult.getValue();

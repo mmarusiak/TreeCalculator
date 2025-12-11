@@ -4,10 +4,7 @@
 #include <vector>
 #include <cstddef>
 
-/**
- * Template specialization of Result for void return type
- * Used when method returns nothing but can report errors
- */
+
 template<typename E>
 class Result<void, E> {
 public:

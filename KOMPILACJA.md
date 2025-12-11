@@ -14,6 +14,30 @@ Uruchomienie:
 
 Wynik: Wszystkie 22 testy przechodzą.
 
+## Test serializacji
+
+Kompilacja:
+```bash
+clang++ -std=c++11 test_serializer.cpp Tree.cpp node/ANode.cpp node/NumberNode.cpp node/OperatorNode.cpp node/VarNode.cpp templates_labs/Error.cpp -o test_serializer
+```
+
+Uruchomienie:
+```bash
+./test_serializer
+```
+
+## Test obsługi błędów podczas ewaluacji
+
+Kompilacja:
+```bash
+clang++ -std=c++11 test_error_handling.cpp node/ANode.cpp node/NumberNode.cpp node/OperatorNode.cpp node/VarNode.cpp templates_labs/Error.cpp templates_labs/TreeBuilder.cpp -o test_error_handling
+```
+
+Uruchomienie:
+```bash
+./test_error_handling
+```
+
 ## Przykłady
 
 Kompilacja:
@@ -37,10 +61,3 @@ Uruchomienie:
 ```bash
 ./main
 ```
-
-## Opcje kompilacji
-
-- `-std=c++11` - standard C++11
-- `-Wall` - włącz wszystkie ostrzeżenia
-- `-Wextra` - dodatkowe ostrzeżenia
-- `-g` - symbole debugowania

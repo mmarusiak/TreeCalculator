@@ -34,6 +34,20 @@ private:
     void copyFrom(const Result<T, E>& other);
 };
 
+template<typename T>
+class Result<T, T> {
+public:
+    Result(const T& value) = delete;
+    Result(T* error) = delete;
+    Result(std::vector<T*>& errors) = delete;
+    Result(const Result<T, T>& other) = delete;
+    ~Result() = delete;
+    static Result<T, T> ok(const T& value) = delete;
+    static Result<T, T> fail(T* error) = delete;
+    static Result<T, T> fail(std::vector<T*>& errors) = delete;
+    Result<T, T>& operator=(const Result<T, T>& other) = delete;
+};
+
 // Template implementation
 
 template<typename T, typename E>
@@ -90,6 +104,7 @@ Result<T, E>& Result<T, E>::operator=(const Result<T, E>& other) {
     }
     return *this;
 }
+
 
 template<typename T, typename E>
 bool Result<T, E>::isSuccess() const {

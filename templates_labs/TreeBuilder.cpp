@@ -10,24 +10,22 @@ static std::string trim(const std::string& str) {
     return str.substr(first, (last - first + 1));
 }
 
-Result<ANode*, Error> TreeBuilder::buildTree(const std::string& expression) {
+Result<Tree*, Error> TreeBuilder::buildTree(const std::string& expression) {
     std::string trimmed = trim(expression);
     
     // Empty expression error
     if (trimmed.empty()) {
         Error* error = new Error("Expression cannot be empty");
-        Result<ANode*, Error> result(error);
-        // Don't delete - Result takes ownership
+        Result<Tree*, Error> result(error);
         return result;
     }
     
     int offset = 0;
-    ANode* tree = ANode::parseFromString(trimmed, offset);
+    ANode* rootNode = ANode::parseFromString(trimmed, offset);
     
-    if (tree == NULL) {
+    if (rootNode == NULL) {
         Error* error = new Error("Failed to parse expression");
-        Result<ANode*, Error> result(error);
-        // Don't delete - Result takes ownership
+        Result<Tree*, Error> result(error);
         return result;
     }
     
@@ -37,13 +35,16 @@ Result<ANode*, Error> TreeBuilder::buildTree(const std::string& expression) {
     }
     
     if (offset != (int)trimmed.length()) {
-        delete tree;
+        delete rootNode;
         Error* error = new Error("Unexpected characters in expression");
-        Result<ANode*, Error> result(error);
-        // Don't delete - Result takes ownership
+        Result<Tree*, Error> result(error);
         return result;
     }
     
-    Result<ANode*, Error> result(tree);
+    Tree* tree = new Tree();
+    std::string expr = expression;
+    tree->loadTreeFromString(expr);
+    
+    Result<Tree*, Error> result(tree);
     return result;
 }
