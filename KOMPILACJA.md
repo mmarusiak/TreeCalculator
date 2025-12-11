@@ -4,7 +4,7 @@
 
 Kompilacja:
 ```bash
-clang++ -std=c++11 -g test_main.cpp node/ANode.cpp node/NumberNode.cpp node/OperatorNode.cpp node/VarNode.cpp Tree.cpp templates/Error.cpp templates/TreeBuilder.cpp -o full_test
+clang++ -std=c++11 -g test_main.cpp node/ANode.cpp node/NumberNode.cpp node/OperatorNode.cpp node/VarNode.cpp Tree.cpp templates_labs/Error.cpp templates_labs/TreeBuilder.cpp -o full_test
 ```
 
 Uruchomienie:
@@ -18,7 +18,7 @@ Wynik: Wszystkie 22 testy przechodzą.
 
 Kompilacja:
 ```bash
-clang++ -std=c++11 test_examples_main.cpp templates/Error.cpp templates/TreeBuilder.cpp node/ANode.cpp node/NumberNode.cpp node/OperatorNode.cpp node/VarNode.cpp Tree.cpp -o examples
+clang++ -std=c++11 test_examples_main.cpp templates_labs/Error.cpp templates_labs/TreeBuilder.cpp node/ANode.cpp node/NumberNode.cpp node/OperatorNode.cpp node/VarNode.cpp Tree.cpp -o examples
 ```
 
 Uruchomienie:
@@ -30,7 +30,7 @@ Uruchomienie:
 
 Kompilacja:
 ```bash
-clang++ -std=c++11 main.cpp ConsoleParser.cpp Tree.cpp node/ANode.cpp node/NumberNode.cpp node/OperatorNode.cpp node/VarNode.cpp templates/Error.cpp -o main
+clang++ -std=c++11 main.cpp ConsoleParser.cpp Tree.cpp node/ANode.cpp node/NumberNode.cpp node/OperatorNode.cpp node/VarNode.cpp templates_labs/Error.cpp -o main
 ```
 
 Uruchomienie:
