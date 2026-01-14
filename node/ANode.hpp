@@ -15,6 +15,7 @@ public:
     // Abstract interface
     virtual double operator()(const std::map<std::string, double>& varValues, bool& success) const = 0;
     virtual std::string toString() const = 0;
+    virtual ANode* clone() const = 0;
 
     // Parsing function returns pointer
     static ANode* parseFromString(const std::string& input, int& offset);

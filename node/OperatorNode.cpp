@@ -1,6 +1,11 @@
 #include "OperatorNode.hpp"
 #include <iostream>
 
+OperatorNode::OperatorNode()
+{
+    operatorSign = '+';
+}
+
 OperatorNode::OperatorNode(int& offset, const std::string& val)
 {
     std::string op = "";
@@ -54,4 +59,15 @@ std::string OperatorNode::toString() const
     if(operatorSign == 'c' || operatorSign == 'C') return "cos";
 
     return "unknown operator...";
+}
+
+ANode* OperatorNode::clone() const
+{
+    OperatorNode* cloned = new OperatorNode();
+    cloned->operatorSign = this->operatorSign;
+    cloned->vars = this->vars;
+    for (auto child : this->children) {
+        cloned->children.push_back(child->clone());
+    }
+    return cloned;
 }

@@ -2,6 +2,10 @@
 #include <sstream>
 #include <string>
 
+// Inicjalizacja zmiennych statycznych
+int Tree::copyCount = 0;
+int Tree::moveCount = 0;
+
 namespace {
 
     // Recursive helper to print node and its children
@@ -29,7 +33,67 @@ namespace {
     }
 }
 
-void Tree::loadTreeFromString(std::string& input)
+// Konstruktor domyślny
+Tree::Tree() : root(nullptr), initialized(false)
+{
+}
+
+// Destruktor
+Tree::~Tree()
+{
+    delete root;
+}
+
+// Konstruktor kopiujący - deep clone
+Tree::Tree(const Tree& other) : initialized(other.initialized)
+{
+    ++copyCount;
+    if (other.root) {
+        root = other.root->clone();
+    } else {
+        root = nullptr;
+    }
+}
+
+// Konstruktor przenoszący
+Tree::Tree(Tree&& other) noexcept : root(other.root), initialized(other.initialized)
+{
+    ++moveCount;
+    other.root = nullptr;
+    other.initialized = false;
+}
+
+// Operator przypisania (kopia)
+Tree& Tree::operator=(const Tree& other)
+{
+    ++copyCount;
+    if (this != &other) {
+        delete root;
+        initialized = other.initialized;
+        if (other.root) {
+            root = other.root->clone();
+        } else {
+            root = nullptr;
+        }
+    }
+    return *this;
+}
+
+// Operator przypisania (przeniesienie)
+Tree& Tree::operator=(Tree&& other) noexcept
+{
+    ++moveCount;
+    if (this != &other) {
+        delete root;
+        root = other.root;
+        initialized = other.initialized;
+        other.root = nullptr;
+        other.initialized = false;
+    }
+    return *this;
+}
+
+void Tree::loadTreeFromString(const std::string& input)
 {
     int offset = 0;
     root = ANode::parseFromString(input, offset);
@@ -72,4 +136,20 @@ Tree& Tree::operator+=(Tree& other)
     other.root = nullptr;
     
     return *this;
+}
+
+// Operator+ zwraca wynik przez wartość
+Tree Tree::operator+(const Tree& other) const
+{
+    Tree result(*this);  // kopia this
+    result += const_cast<Tree&>(other);
+    return result;
+}
+
+// Move-optimized wersja - gdy other jest rvalue
+Tree Tree::operator+(Tree&& other) const
+{
+    Tree result(*this);  // kopia this
+    result += other;
+    return result;  // RVO/move
 }

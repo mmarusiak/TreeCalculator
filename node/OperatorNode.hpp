@@ -18,6 +18,7 @@ public:
     
     double operator() (const std::map<std::string, double>& varValues, bool& success) const override;
     std::string toString() const override;
+    ANode* clone() const override;
 };
 
 #endif

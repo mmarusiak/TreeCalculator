@@ -1,5 +1,10 @@
 #include "VarNode.hpp"
 
+VarNode::VarNode()
+{
+    variable = "";
+}
+
 VarNode::VarNode(int& offset, const std::string& val)
 {
     std::string var = "";
@@ -25,4 +30,15 @@ double VarNode::operator()(const std::map<std::string, double> &varValues, bool 
 std::string VarNode::toString() const 
 {
     return variable;
+}
+
+ANode* VarNode::clone() const
+{
+    VarNode* cloned = new VarNode();
+    cloned->variable = this->variable;
+    cloned->vars = this->vars;
+    for (auto child : this->children) {
+        cloned->children.push_back(child->clone());
+    }
+    return cloned;
 }

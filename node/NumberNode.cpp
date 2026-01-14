@@ -32,3 +32,14 @@ std::string NumberNode::toString() const
 {
     return std::to_string(value);
 }
+
+ANode* NumberNode::clone() const
+{
+    NumberNode* cloned = new NumberNode();
+    cloned->value = this->value;
+    cloned->vars = this->vars;
+    for (auto child : this->children) {
+        cloned->children.push_back(child->clone());
+    }
+    return cloned;
+}
